@@ -79,7 +79,7 @@ Server-side rendered application focused on performance.
 ## 📫 Contact
 
 - GitHub: https://github.com/amjadOka
-- Email: your-email@example.com
+- Email: amjad392q@gmail.com
 
 ---
 
