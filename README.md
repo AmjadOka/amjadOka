@@ -1,92 +1,74 @@
-[github-README.md](https://github.com/user-attachments/files/28444298/github-README.md)
-<div align="center">
+# Amjad — Backend Developer (NestJS)
 
-# Amjad AbuNasser
+Software Engineering student and NestJS backend developer based in Palestine, building production-grade systems in Arabic-language contexts: an accounting/inventory ERP, an agricultural marketplace, and a family-management platform.
 
-**Senior Software Engineer · Backend Systems · Palestine 🇵🇸**
-
-[![Email](https://img.shields.io/badge/amjad392q@gmail.com-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:amjad392q@gmail.com)
-[![GitHub](https://img.shields.io/badge/@AmjadOka-181717?style=flat&logo=github&logoColor=white)](https://github.com/AmjadOka)
-
-</div>
+[Email](mailto:amjad392q@gmail.com) · [LinkedIn](https://www.linkedin.com/in/amjad-abunasser-983195251/) · [GitHub](https://github.com/amjadOka)
 
 ---
 
-I build **production-grade backend systems** — the kind where correctness matters, concurrency is real, and the codebase still makes sense six months later.
+## Stack
 
-My focus is distributed architecture, financial-grade data integrity, and real-time systems. I care about things most engineers skip: cache invalidation strategies, pessimistic lock placement, decimal precision in financial columns, token lifecycle management, and the difference between a well-designed module boundary and one that will rot.
-
-Currently building [**Mahaseel**](https://github.com/AmjadOka) — a full-stack B2C agricultural marketplace connecting Palestinian farmers directly with buyers, with live auctions, a merchant wallet with hold-and-release payout logic, and a multi-channel real-time notification system.
+`NestJS` `TypeScript` `TypeORM` `PostgreSQL` `MongoDB / Mongoose` `Redis` `BullMQ` `WebSockets` `Stripe` `Docker` `React` `GraphQL` `Tailwind (RTL/Arabic UI)`
 
 ---
 
-## What I Work With
+## Featured Projects
 
-**Core**
+### 🧾 ERP System — Accounting & Inventory for Local Merchants
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
-![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)
+Multi-module ERP for local merchants to manage large-scale purchases, sales, and stock — built end-to-end (backend + Arabic RTL frontend).
 
-**Infrastructure & Tooling**
+- **FIFO lot-based inventory** (`StockLot`, `LotConsumption`, `FifoService`) with quantity/cost correction tooling
+- **Double-entry ledger engine** (`LedgerService.append()`) with deterministic ordering via a Postgres sequence
+- Full reporting suite: profitability (`lotProfitReport`), trial balance, account statements, stock summary, cash box, and party movement reports — with PDF export and Excel Detailed
+- Invoice/payment voiding with full stock and ledger reversal, party reassignment, and profit distribution (draft/post/cancel workflow with partner share history)
+- Frontend: React + Tailwind, Arabic RTL, shared `Table` / `Modal` / `KpiStrip` / `PrintDocument` components
 
-![BullMQ](https://img.shields.io/badge/BullMQ-FF6B6B?style=flat)
-![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=flat&logo=socketdotio&logoColor=white)
-![Stripe](https://img.shields.io/badge/Stripe-635BFF?style=flat&logo=stripe&logoColor=white)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
-
-**Frontend**
-
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)
+**Stack:** NestJS · TypeORM · PostgreSQL · React · Tailwind
 
 ---
 
-## Featured Work
+### 🌾 Mahaseel — Digital Agricultural Marketplace
 
-### Mahaseel — Agricultural Marketplace Platform
-> Full-stack B2C platform · NestJS · PostgreSQL · Redis · Stripe · Socket.io
+Training project at Avatar Company for Training and Development — a marketplace connecting agricultural producers and buyers across Palestine.
 
-A production-level marketplace built for Palestinian farmers and buyers. The system handles two sale models (fixed-price and live auctions), a three-balance merchant wallet with hold-and-release payout logic, and a real-time notification system across WebSocket, SSE, and email channels.
+- Auction system: bid-to-order flow with BullMQ background workers
+- Stripe payment integration with webhook handling; wallet/escrow system
+- Category tree management with Redis caching
+- Full admin module audit and rewrite
+- Ratings system with composite constraints and flag/report handling
+- Event-driven notifications: in-app (WebSocket), push (FCM), and email, fanned out from a single dispatcher
 
-**Architecture highlights:**
-- **Auth system** — JWT access + refresh token rotation, Redis blacklisting per `jti`, `tokenVersion` for global session invalidation, Google OAuth with `httpOnly` cookie flow
-- **Wallet engine** — `pendingBalance → availableBalance` release cycle, all mutations under `pessimistic_write` locks, full transaction audit trail, double-processing prevention on withdrawal approval/rejection
-- **Cache layer** — version-key pattern for paginated caches (no key scanning), targeted bust-and-rewarm on every write, cross-module cache invalidation (ratings bust user stats)
-- **Notification pipeline** — EventEmitter2 → Listener → Dispatcher → WebSocket + SSE + Email in parallel via `Promise.allSettled`, unread badge count re-warmed as a cache side-effect
-- **Admin module** — 9 sub-controllers covering full platform oversight: farm approval workflow, user suspension, force order actions, withdrawal processing, broadcast notifications, revenue reports, and an immutable audit log
+**Stack:** NestJS · TypeORM · PostgreSQL · Redis · BullMQ · Stripe
 
 ---
 
-## Things I Think About
+### 👨‍👩‍👧 Smart Family — Family Management Backend
 
-**Data integrity over convenience.**
-Financial columns need transformers. Nullable decimals should stay null. A `0` where `null` belonged has broken more payout logic than any off-by-one error.
+Main project of a back-end trainee program at BBD agency.
 
-**Concurrency is not an edge case.**
-Any write to shared state that doesn't hold a pessimistic lock is a race condition waiting for production load to find it.
+- NestJS/Fastify backend on MongoDB/Mongoose, deployed to a DigitalOcean VPS via Docker Compose (replica sets with keyfile auth, Redis, swap-tuned for low-RAM droplets)
+- Google & Apple OAuth, JWT auth with refresh token rotation
+- Rewards/points ledger with dashboard aggregation
+- Realtime WebSocket gateway, FCM push notifications with multi-device token management, BullMQ reminder scheduling
+- Statistics module with AI-generated insights (Anthropic/Groq)
+- Led a code audit that caught duplicate routes, missing DI, ReDoS-vulnerable regex queries, and a routing bug
 
-**Cache invalidation is an architecture decision.**
-TTL alone is a bet that staleness won't matter. Version-key patterns, targeted bust-and-rewarm, and short TTLs on paginated data are deliberate choices — not afterthoughts.
+**Stack:** NestJS · Fastify · MongoDB · Docker · Redis
 
-**Security is in the defaults.**
-`select: false` on sensitive columns. `ParseUUIDPipe` on every `:id`. Raw body for Stripe webhooks — never `JSON.stringify(req.body)`. `@Max()` on pagination limits. The goal is to make the insecure path harder than the secure one.
+---
+
+### 🏕️ WildStay — Cabin Rental Platform
+
+Full-stack booking platform: frontend + backend built separately.
+
+- Frontend: React 18/19, TypeScript, Vite, GraphQL, Zustand, React Query
+- Backend: NestJS, GraphQL, MongoDB — booking scheduling, role-based access control, cron-based booking expiry
+
+**Stack:** NestJS · GraphQL · MongoDB · React · Vite
 
 ---
 
 ## Currently
 
-- 🔨 Shipping Mahaseel to production
-- 📖 Going deeper on distributed systems and event-driven architecture
-- 🌍 Building technology that serves underrepresented communities
-
----
-
-<div align="center">
-
-*Based in Nablus, Palestine · Open to remote opportunities*
-
-</div>
+Looking for backend (NestJS) or full-stack remote opportunities — open to full-time and freelance/contract work.
